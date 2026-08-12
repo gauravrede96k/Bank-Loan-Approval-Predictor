@@ -59,21 +59,10 @@
             🏠 Home
         </a>
 
-        <a href="{{ url_for('dashboard') }}">
-            📊 Dashboard
-        </a>
-
-        <a href="{{ url_for('history') }}?status=all">
-            📋 History
-        </a>
-
         <a href="{{ url_for('analytics') }}">
             📈 Analytics
         </a>
 
-        <a href="{{ url_for('export_page') }}">
-            📥 Export
-        </a>
 
         <a href="{{ url_for('admin_login') }}">
             🔐 Admin
@@ -146,10 +135,10 @@
 
         <!-- Total Applications -->
 
-        <a
+        <!-- <a
             href="{{ url_for('history') }}?status=all"
             class="stat-card-link"
-        >
+        > -->
 
             <div class="stat-card">
 
@@ -177,10 +166,10 @@
 
         <!-- Approved Applications -->
 
-        <a
+        <!-- <a
             href="{{ url_for('history') }}?status=approved"
             class="stat-card-link"
-        >
+        > -->
 
             <div class="stat-card approved-card">
 
@@ -208,10 +197,10 @@
 
         <!-- Rejected Applications -->
 
-        <a
+        <!-- <a
             href="{{ url_for('history') }}?status=rejected"
             class="stat-card-link"
-        >
+        > -->
 
             <div class="stat-card rejected-card">
 
