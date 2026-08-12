@@ -4,3 +4,4 @@ scikit-learn
 pymongo
 openpyxl
 dnspython
+python-dotenv
