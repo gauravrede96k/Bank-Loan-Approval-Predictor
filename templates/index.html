@@ -11,6 +11,7 @@
     >
 
     <title>Bank Loan Approval Predictor</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='bank-logo.png') }}">
 
     <link
         rel="stylesheet"
@@ -36,7 +37,10 @@
 <nav class="navbar">
 
     <div class="nav-brand">
-        🏦 Bank Loan Predictor
+        <img src="{{ url_for('static', filename='bank-logo.png') }}"
+             alt="Bank Logo"
+             style="width:32px;height:32px;object-fit:contain;vertical-align:middle;margin-right:8px;">
+        Bank Loan Approval Predictor
     </div>
 
     <!-- Mobile Menu Button -->
@@ -95,14 +99,16 @@
 <header class="header">
 
     <div class="logo">
-        🏦
+        <img src="{{ url_for('static', filename='bank-logo.png') }}"
+             alt="Bank Logo"
+             style="width:70px;height:70px;object-fit:contain;">
     </div>
 
 
     <div>
 
         <h2>
-            Bank Loan Predictor
+            Bank Loan Approval Predictor
         </h2>
 
         <p>
