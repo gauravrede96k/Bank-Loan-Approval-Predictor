@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Export | Bank Loan Predictor</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <script
+    src="{{ url_for('static', filename='theme.js') }}"
+    defer
+>
+</script>
+
+</head>
+
+
+<body>
+
+
+<!-- ================================================= -->
+<!-- NAVBAR -->
+<!-- ================================================= -->
+
+<nav class="navbar">
+
+    <div class="nav-brand">
+        🏦 Bank Loan Predictor
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button
+        id="menuToggle"
+        class="menu-toggle"
+        type="button"
+        aria-label="Open menu"
+    >
+        ☰
+    </button>
+
+    <!-- Navigation Links -->
+    <div class="nav-links" id="navLinks">
+
+        <a href="{{ url_for('home') }}">
+            🏠 Home
+        </a>
+
+        <a href="{{ url_for('dashboard') }}">
+            📊 Dashboard
+        </a>
+
+        <a href="{{ url_for('history') }}?status=all">
+            📋 History
+        </a>
+
+        <a href="{{ url_for('analytics') }}">
+            📈 Analytics
+        </a>
+
+        <a
+            href="{{ url_for('export_page') }}"
+            class="active"
+        >
+            📥 Export
+        </a>
+
+        <a href="{{ url_for('admin_login') }}">
+            🔐 Admin
+        </a>
+
+        <!-- Light / Dark Theme -->
+        <button
+            id="themeToggle"
+            class="theme-toggle"
+            type="button"
+        >
+            🌙 Dark
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- ================================================= -->
+<!-- MAIN -->
+<!-- ================================================= -->
+
+<div class="result-container">
+
+
+    <div class="result-header">
+
+        <div class="result-logo">
+            📥
+        </div>
+
+
+        <h1>
+            Export Applications
+        </h1>
+
+
+        <p>
+            Download your loan application data
+        </p>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- EXPORT OPTIONS -->
+    <!-- ================================================= -->
+
+    <div class="analytics-cards">
+
+
+        <!-- CSV -->
+
+        <div class="analytics-card">
+
+            <div class="analytics-icon">
+                📄
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Export CSV
+                </h3>
+
+                <p>
+                    Download all applications as CSV file.
+                </p>
+
+
+                <a
+                    href="{{ url_for('export_csv') }}"
+                    class="view-button"
+                >
+                    📥 Download CSV
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- EXCEL -->
+
+        <div class="analytics-card">
+
+            <div class="analytics-icon">
+                📊
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Export Excel
+                </h3>
+
+                <p>
+                    Download all applications as Excel file.
+                </p>
+
+
+                <a
+                    href="{{ url_for('export_excel') }}"
+                    class="view-button"
+                >
+                    📥 Download Excel
+                </a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- BACK BUTTON -->
+    <!-- ================================================= -->
+
+    <div style="text-align:center; margin-top:30px;">
+
+        <a
+            href="/"
+            class="back-button"
+        >
+            ← Back to Home
+        </a>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Applications | Admin</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: linear-gradient(
+        135deg,
+        #eef2ff,
+        #dbeafe
+    );
+
+    color: #1e293b;
+    padding: 25px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* ================= HEADER ================= */
+
+.header {
+    background: white;
+
+    padding: 20px 25px;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    color: #1e3a8a;
+    font-size: 23px;
+}
+
+.header p {
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.back-button {
+    padding: 10px 16px;
+
+    background: #2563eb;
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.back-button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+/* ================= TABLE CARD ================= */
+
+.table-card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.09);
+
+    overflow: hidden;
+}
+
+.table-title {
+    margin-bottom: 20px;
+
+    color: #1e3a8a;
+
+    font-size: 19px;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 950px;
+
+    border-collapse: collapse;
+}
+
+thead {
+    background: #eff6ff;
+}
+
+th {
+    padding: 14px 12px;
+
+    text-align: left;
+
+    color: #1e3a8a;
+
+    font-size: 13px;
+
+    border-bottom:
+        2px solid #dbeafe;
+}
+
+td {
+    padding: 13px 12px;
+
+    font-size: 13px;
+
+    color: #334155;
+
+    border-bottom:
+        1px solid #e2e8f0;
+}
+
+tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* ================= STATUS ================= */
+
+.approved {
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    background: #dcfce7;
+    color: #16a34a;
+
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.rejected {
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    background: #fee2e2;
+    color: #dc2626;
+
+    font-size: 11px;
+    font-weight: bold;
+}
+
+/* ================= ACTIONS ================= */
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.view-button {
+    display: inline-block;
+
+    padding: 7px 11px;
+
+    background: #2563eb;
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 7px;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.view-button:hover {
+    background: #1d4ed8;
+}
+
+.delete-button {
+    padding: 7px 11px;
+
+    background: #fee2e2;
+    color: #dc2626;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 7px;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.delete-button:hover {
+    background: #dc2626;
+    color: white;
+}
+
+/* ================= EMPTY ================= */
+
+.empty {
+    text-align: center;
+
+    padding: 50px 20px;
+
+    color: #64748b;
+}
+
+.empty-icon {
+    font-size: 45px;
+    margin-bottom: 12px;
+}
+
+.empty h2 {
+    color: #1e3a8a;
+    margin-bottom: 8px;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 650px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .header {
+        flex-direction: column;
+
+        gap: 15px;
+
+        text-align: center;
+    }
+
+    .table-card {
+        padding: 18px 12px;
+    }
+
+}
+
+</style>
+
+
+<script
+    src="{{ url_for('static', filename='theme.js') }}"
+    defer
+>
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- ================= HEADER ================= -->
+
+<div class="header">
+
+<div>
+
+    <h1>
+        📋 Admin Applications
+    </h1>
+
+    <p>
+        Manage and review all loan applications
+    </p>
+
+</div>
+
+<a
+    href="/admin/dashboard"
+    class="back-button"
+>
+    ← Dashboard
+</a>
+
+</div>
+
+<!-- ================= TABLE ================= -->
+
+<div class="table-card">
+
+<h2 class="table-title">
+    All Loan Applications
+</h2>
+
+
+{% if applications %}
+
+<div class="table-wrapper">
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Applicant
+                </th>
+
+                <th>
+                    Income
+                </th>
+
+                <th>
+                    Loan Amount
+                </th>
+
+                <th>
+                    Credit History
+                </th>
+
+                <th>
+                    Property Area
+                </th>
+
+                <th>
+                    Prediction
+                </th>
+
+                <th>
+                    Action
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for application in applications %}
+
+            <tr>
+
+                <td>
+                    {{ application.Gender }}
+                </td>
+
+
+                <td>
+                    ₹{{ application.ApplicantIncome }}
+                </td>
+
+
+                <td>
+                    ₹{{ application.LoanAmount }}
+                </td>
+
+
+                <td>
+                    {{ application.Credit_History }}
+                </td>
+
+
+                <td>
+                    {{ application.Property_Area }}
+                </td>
+
+
+                <td>
+
+                    {% if application.Loan_Status_Prediction == "Y" %}
+
+                        <span class="approved">
+                            ✅ Approved
+                        </span>
+
+                    {% else %}
+
+                        <span class="rejected">
+                            ❌ Rejected
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+
+                <td>
+
+                    <div class="action-buttons">
+
+                        <!-- VIEW -->
+
+                        <a
+                            href="{{ url_for(
+                                'application_details',
+                                application_id=application._id
+                            ) }}"
+                            class="view-button"
+                        >
+                            👁 View
+                        </a>
+
+
+                        <!-- DELETE -->
+
+                        <form
+                            action="{{ url_for(
+                                'admin_delete_application',
+                                application_id=application._id
+                            ) }}"
+                            method="POST"
+                            onsubmit="return confirm(
+                                'Are you sure you want to delete this application?'
+                            );"
+                        >
+
+                            <button
+                                type="submit"
+                                class="delete-button"
+                            >
+                                🗑 Delete
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+<div class="empty">
+
+    <div class="empty-icon">
+        📂
+    </div>
+
+    <h2>
+        No Applications
+    </h2>
+
+    <p>
+        There are currently no loan applications.
+    </p>
+
+</div>
+
+{% endif %}
+</div>
+
+</div>
+
+</body>
+
+</html>

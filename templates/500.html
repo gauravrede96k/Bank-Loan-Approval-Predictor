@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Server Error</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+          <script
+    src="{{ url_for('static', filename='theme.js') }}"
+    defer
+>
+</script>
+
+</head>
+
+<body>
+
+    <div class="error-container">
+
+        <div class="error-icon">
+            ⚠️
+        </div>
+
+        <h1>500</h1>
+
+        <h2>Something Went Wrong</h2>
+
+        <p>
+            We couldn't process your request right now.
+            Please try again.
+        </p>
+
+        <a href="/" class="back-button">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</body>
+
+</html>

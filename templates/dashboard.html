@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard | Bank Loan Predictor</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <script
+    src="{{ url_for('static', filename='theme.js') }}"
+    defer
+>
+</script>
+
+</head>
+
+
+<body>
+
+
+<!-- ================================================= -->
+<!-- NAVBAR -->
+<!-- ================================================= -->
+
+<nav class="navbar">
+
+    <div class="nav-brand">
+        🏦 Bank Loan Predictor
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button
+        id="menuToggle"
+        class="menu-toggle"
+        type="button"
+        aria-label="Open menu"
+    >
+        ☰
+    </button>
+
+    <!-- Navigation Links -->
+    <div class="nav-links" id="navLinks">
+
+        <a
+            href="{{ url_for('home') }}"
+        >
+            🏠 Home
+        </a>
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="active"
+        >
+            📊 Dashboard
+        </a>
+
+        <a
+            href="{{ url_for('history') }}?status=all"
+        >
+            📋 History
+        </a>
+
+        <a href="{{ url_for('analytics') }}">
+            📈 Analytics
+        </a>
+
+        <a href="{{ url_for('export_page') }}">
+            📥 Export
+        </a>
+
+        <a href="{{ url_for('admin_login') }}">
+            🔐 Admin
+        </a>
+
+        <!-- Light / Dark Theme -->
+        <button
+            id="themeToggle"
+            class="theme-toggle"
+            type="button"
+        >
+            🌙 Dark
+        </button>
+
+    </div>
+
+</nav>
+
+
+
+<!-- ================================================= -->
+<!-- MAIN -->
+<!-- ================================================= -->
+
+<div class="result-container">
+
+
+    <!-- HEADER -->
+
+    <div class="result-header">
+
+        <div class="result-logo">
+            📊
+        </div>
+
+        <h1>
+            Loan Dashboard
+        </h1>
+
+        <p>
+            Overview of loan application statistics
+        </p>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- STATISTICS -->
+    <!-- ================================================= -->
+
+    <div class="stats-container">
+
+
+        <!-- Total -->
+
+        <a
+            href="{{ url_for('history') }}?status=all"
+            class="stat-card-link"
+        >
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📋
+                </div>
+
+                <div class="stat-info">
+
+                    <h3>
+                        {{ total_applications }}
+                    </h3>
+
+                    <p>
+                        Total Applications
+                    </p>
+
+                </div>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- Approved -->
+
+        <a
+            href="{{ url_for('history') }}?status=approved"
+            class="stat-card-link"
+        >
+
+            <div class="stat-card approved-card">
+
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+                <div class="stat-info">
+
+                    <h3>
+                        {{ approved_applications }}
+                    </h3>
+
+                    <p>
+                        Approved Applications
+                    </p>
+
+                </div>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- Rejected -->
+
+        <a
+            href="{{ url_for('history') }}?status=rejected"
+            class="stat-card-link"
+        >
+
+            <div class="stat-card rejected-card">
+
+                <div class="stat-icon">
+                    ✕
+                </div>
+
+                <div class="stat-info">
+
+                    <h3>
+                        {{ rejected_applications }}
+                    </h3>
+
+                    <p>
+                        Rejected Applications
+                    </p>
+
+                </div>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- Approval Rate -->
+
+        <div class="stat-card approval-card">
+
+            <div class="stat-icon">
+                📈
+            </div>
+
+            <div class="stat-info">
+
+                <h3>
+                    {{ approval_rate }}%
+                </h3>
+
+                <p>
+                    Approval Rate
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- FINANCIAL STATISTICS -->
+    <!-- ================================================= -->
+
+    <div class="analytics-section">
+
+        <div class="analytics-header">
+
+            <h2>
+                💰 Financial Overview
+            </h2>
+
+            <p>
+                Average applicant income and loan amount
+            </p>
+
+        </div>
+
+
+        <div class="analytics-cards">
+
+
+            <!-- Average Income -->
+
+            <div class="analytics-card">
+
+                <div class="analytics-icon">
+                    💵
+                </div>
+
+                <div>
+
+                    <h3>
+                        ₹{{ average_income }}
+                    </h3>
+
+                    <p>
+                        Average Applicant Income
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Average Loan -->
+
+            <div class="analytics-card">
+
+                <div class="analytics-icon">
+                    💰
+                </div>
+
+                <div>
+
+                    <h3>
+                        ₹{{ average_loan_amount }}
+                    </h3>
+
+                    <p>
+                        Average Loan Amount
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Approval Rate -->
+
+            <div class="analytics-card">
+
+                <div class="analytics-icon">
+                    📊
+                </div>
+
+                <div>
+
+                    <h3>
+                        {{ approval_rate }}%
+                    </h3>
+
+                    <p>
+                        Overall Approval Rate
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- QUICK ACTIONS -->
+    <!-- ================================================= -->
+
+    <div class="analytics-section">
+
+        <div class="analytics-header">
+
+            <h2>
+                ⚡ Quick Actions
+            </h2>
+
+            <p>
+                Manage and explore your applications
+            </p>
+
+        </div>
+
+
+        <div class="analytics-cards">
+
+
+            <a
+                href="{{ url_for('history') }}?status=all"
+                class="analytics-card"
+            >
+
+                <div class="analytics-icon">
+                    📋
+                </div>
+
+                <div>
+
+                    <h3>
+                        Application History
+                    </h3>
+
+                    <p>
+                        View all loan applications
+                    </p>
+
+                </div>
+
+            </a>
+
+
+
+            <a
+                href="{{ url_for('analytics') }}"
+                class="analytics-card"
+            >
+
+                <div class="analytics-icon">
+                    📈
+                </div>
+
+                <div>
+
+                    <h3>
+                        Analytics
+                    </h3>
+
+                    <p>
+                        View approval trends and charts
+                    </p>
+
+                </div>
+
+            </a>
+
+
+
+            <a
+                href="{{ url_for('export_page') }}"
+                class="analytics-card"
+            >
+
+                <div class="analytics-icon">
+                    📥
+                </div>
+
+                <div>
+
+                    <h3>
+                        Export Data
+                    </h3>
+
+                    <p>
+                        Export applications to CSV or Excel
+                    </p>
+
+                </div>
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- NEW APPLICATION -->
+    <!-- ================================================= -->
+
+    <div style="text-align:center; margin-top:30px;">
+
+        <a
+            href="/"
+            class="back-button"
+        >
+            + New Loan Application
+        </a>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

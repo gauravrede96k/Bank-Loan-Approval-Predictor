@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Application History | Bank Loan Predictor</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <script
+    src="{{ url_for('static', filename='theme.js') }}"
+    defer
+>
+</script>
+
+</head>
+
+
+<body>
+
+
+<!-- ===================================================== -->
+<!-- NAVBAR -->
+<!-- ===================================================== -->
+
+<nav class="navbar">
+
+    <div class="nav-brand">
+        🏦 Bank Loan Predictor
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button
+        id="menuToggle"
+        class="menu-toggle"
+        type="button"
+        aria-label="Open menu"
+    >
+        ☰
+    </button>
+
+    <!-- Navigation Links -->
+    <div class="nav-links" id="navLinks">
+
+        <a href="{{ url_for('home') }}">
+            🏠 Home
+        </a>
+
+        <a href="{{ url_for('dashboard') }}">
+            📊 Dashboard
+        </a>
+
+        <a
+            href="{{ url_for('history') }}?status=all"
+            class="active"
+        >
+            📋 History
+        </a>
+
+        <a href="{{ url_for('analytics') }}">
+            📈 Analytics
+        </a>
+
+        <a href="{{ url_for('export_page') }}">
+            📥 Export
+        </a>
+
+        <a href="{{ url_for('admin_login') }}">
+            🔐 Admin
+        </a>
+
+        <!-- Light / Dark Theme -->
+        <button
+            id="themeToggle"
+            class="theme-toggle"
+            type="button"
+        >
+            🌙 Dark
+        </button>
+
+    </div>
+
+</nav>
+
+
+    <!-- ================================================= -->
+    <!-- HISTORY CARD -->
+    <!-- ================================================= -->
+
+    <div class="history-card">
+
+
+        <!-- ================================================= -->
+        <!-- FILTERS -->
+        <!-- ================================================= -->
+
+        <div class="history-filters">
+
+
+            <a
+                href="{{ url_for('history') }}?status=all"
+                class="filter-button {% if request.args.get('status', 'all') == 'all' %}active-filter{% endif %}"
+            >
+                📋 All
+            </a>
+
+
+            <a
+                href="{{ url_for('history') }}?status=approved"
+                class="filter-button approved-filter {% if request.args.get('status') == 'approved' %}active-filter{% endif %}"
+            >
+                ✓ Approved
+            </a>
+
+
+            <a
+                href="{{ url_for('history') }}?status=rejected"
+                class="filter-button rejected-filter {% if request.args.get('status') == 'rejected' %}active-filter{% endif %}"
+            >
+                ✕ Rejected
+            </a>
+
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- SEARCH + SORT -->
+        <!-- ================================================= -->
+
+        <div class="history-controls">
+
+
+            <!-- Search -->
+
+            <div class="history-search">
+
+                <input
+                    type="text"
+                    id="historySearch"
+                    placeholder="🔎 Search applications..."
+                    onkeyup="searchApplications()"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- Sort -->
+
+            <div class="history-sort">
+
+                <label for="sortApplications">
+                    Sort By
+                </label>
+
+
+                <select
+                    id="sortApplications"
+                    onchange="sortApplications()"
+                >
+
+                    <option value="latest">
+                        Latest
+                    </option>
+
+                    <option value="oldest">
+                        Oldest
+                    </option>
+
+                    <option value="income-high">
+                        Highest Income
+                    </option>
+
+                    <option value="income-low">
+                        Lowest Income
+                    </option>
+
+                    <option value="loan-high">
+                        Highest Loan Amount
+                    </option>
+
+                    <option value="loan-low">
+                        Lowest Loan Amount
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- APPLICATION TABLE -->
+        <!-- ================================================= -->
+
+        {% if applications %}
+
+
+        <div class="table-wrapper">
+
+
+            <table id="applicationsTable">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            Gender
+                        </th>
+
+                        <th>
+                            Income
+                        </th>
+
+                        <th>
+                            Loan Amount
+                        </th>
+
+                        <th>
+                            Credit History
+                        </th>
+
+                        <th>
+                            Prediction
+                        </th>
+
+                        <th>
+                            Confidence
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                {% for application in applications %}
+
+
+                    <tr
+                        data-income="{{ application.ApplicantIncome or 0 }}"
+                        data-loan="{{ application.LoanAmount or 0 }}"
+                        data-date="{{ application.Application_Date or '' }}"
+                    >
+
+
+                        <!-- Number -->
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+
+                        <!-- Gender -->
+
+                        <td>
+                            {{ application.Gender or 'N/A' }}
+                        </td>
+
+
+                        <!-- Income -->
+
+                        <td>
+
+                            ₹{{ "{:,.0f}".format(application.ApplicantIncome|float) }}
+
+                        </td>
+
+
+                        <!-- Loan Amount -->
+
+                        <td>
+
+                            ₹{{ "{:,.0f}".format(application.LoanAmount|float) }}
+
+                        </td>
+
+
+                        <!-- Credit History -->
+
+                        <td>
+
+                            {% if application.Credit_History == 1 %}
+
+                                <span class="credit-good">
+                                    ✓ Good
+                                </span>
+
+                            {% else %}
+
+                                <span class="credit-poor">
+                                    ✕ Poor
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- Prediction -->
+
+                        <td>
+
+                            {% if application.Loan_Status_Prediction == "Y" %}
+
+                                <span class="history-approved">
+                                    ✓ Approved
+                                </span>
+
+                            {% else %}
+
+                                <span class="history-rejected">
+                                    ✕ Rejected
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- Confidence -->
+
+                        <td>
+
+                            <strong>
+                                {{ application.Prediction_Confidence }}%
+                            </strong>
+
+                        </td>
+
+
+                        <!-- Date -->
+
+                        <td>
+
+                            {{ application.Application_Date or 'N/A' }}
+
+                        </td>
+
+
+                        <!-- Action -->
+
+                        <td>
+
+                            <a
+                                href="{{ url_for(
+                                    'application_details',
+                                    application_id=application._id
+                                ) }}"
+                                class="view-button"
+                            >
+                                👁️ View
+                            </a>
+
+                        </td>
+
+
+                    </tr>
+
+
+                {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- RESULT COUNT -->
+        <!-- ================================================= -->
+
+        <div class="history-count">
+
+            Showing
+            <strong id="visibleCount">
+                {{ applications|length }}
+            </strong>
+            application(s)
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- ================================================= -->
+        <!-- EMPTY HISTORY -->
+        <!-- ================================================= -->
+
+        <div class="no-history">
+
+
+            <div class="no-history-icon">
+                📋
+            </div>
+
+
+            <h2>
+                No Applications Yet
+            </h2>
+
+
+            <p>
+                No loan prediction applications
+                have been submitted yet.
+            </p>
+
+
+            <a
+                href="/"
+                class="back-button"
+            >
+                ➕ Create New Application
+            </a>
+
+
+        </div>
+
+
+        {% endif %}
+
+
+        <!-- ================================================= -->
+        <!-- BACK BUTTON -->
+        <!-- ================================================= -->
+
+        {% if applications %}
+
+        <a
+            href="/"
+            class="back-button"
+        >
+            ← New Application
+        </a>
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- JAVASCRIPT -->
+<!-- ===================================================== -->
+
+<script>
+
+
+/* ===================================================== */
+/* SEARCH APPLICATIONS */
+/* ===================================================== */
+
+function searchApplications() {
+
+    const searchInput =
+        document.getElementById("historySearch");
+
+    const searchValue =
+        searchInput.value
+        .toLowerCase()
+        .trim();
+
+
+    const rows =
+        document.querySelectorAll("#applicationsTable tbody tr");
+
+
+    let visibleCount = 0;
+
+
+    rows.forEach(function(row) {
+
+        const rowText =
+            row.textContent.toLowerCase();
+
+
+        if (rowText.includes(searchValue)) {
+
+            row.style.display = "";
+
+            visibleCount++;
+
+        } else {
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+
+    const countElement =
+        document.getElementById("visibleCount");
+
+
+    if (countElement) {
+
+        countElement.textContent =
+            visibleCount;
+
+    }
+
+}
+
+
+
+/* ===================================================== */
+/* SORT APPLICATIONS */
+/* ===================================================== */
+
+function sortApplications() {
+
+    const select =
+        document.getElementById("sortApplications");
+
+
+    const sortValue =
+        select.value;
+
+
+    const table =
+        document.querySelector(
+            "#applicationsTable tbody"
+        );
+
+
+    if (!table) {
+
+        return;
+
+    }
+
+
+    const rows =
+        Array.from(
+            table.querySelectorAll("tr")
+        );
+
+
+    rows.sort(function(a, b) {
+
+
+        const incomeA =
+            Number(
+                a.dataset.income || 0
+            );
+
+
+        const incomeB =
+            Number(
+                b.dataset.income || 0
+            );
+
+
+        const loanA =
+            Number(
+                a.dataset.loan || 0
+            );
+
+
+        const loanB =
+            Number(
+                b.dataset.loan || 0
+            );
+
+
+        const dateA =
+            new Date(
+                a.dataset.date || 0
+            );
+
+
+        const dateB =
+            new Date(
+                b.dataset.date || 0
+            );
+
+
+        switch (sortValue) {
+
+
+            case "latest":
+
+                return dateB - dateA;
+
+
+            case "oldest":
+
+                return dateA - dateB;
+
+
+            case "income-high":
+
+                return incomeB - incomeA;
+
+
+            case "income-low":
+
+                return incomeA - incomeB;
+
+
+            case "loan-high":
+
+                return loanB - loanA;
+
+
+            case "loan-low":
+
+                return loanA - loanB;
+
+
+            default:
+
+                return 0;
+
+        }
+
+    });
+
+
+    rows.forEach(function(row) {
+
+        table.appendChild(row);
+
+    });
+
+}
+
+
+
+/* ===================================================== */
+/* PAGE LOAD */
+/* ===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        sortApplications();
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>

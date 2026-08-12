@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Application Details</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <script
+    src="{{ url_for('static', filename='theme.js') }}"
+    defer
+>
+</script>
+
+</head>
+
+
+<body>
+
+
+<!-- ============================= -->
+<!-- Navbar -->
+<!-- ============================= -->
+
+<nav class="navbar">
+
+    <div class="nav-brand">
+        🏦 Bank Loan Predictor
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            🏠 Home
+        </a>
+
+
+        <a href="/history?status=all">
+            📊 History
+        </a>
+
+
+        <a href="/export/csv">
+            📥 Export CSV
+        </a>
+
+
+        <a href="/export/excel">
+            📊 Export Excel
+        </a>
+
+
+        <button id="menuToggle" class="menu-toggle" type="button">
+    ☰
+</button>
+
+<div class="nav-links" id="navLinks">
+
+    
+    </div>
+
+</nav>
+
+
+<!-- ============================= -->
+<!-- Main Container -->
+<!-- ============================= -->
+
+<div class="details-container">
+
+
+    <!-- Header -->
+
+    <div class="details-header">
+
+        <div class="result-logo">
+            🏦
+        </div>
+
+
+        <h1>
+            Application Details
+        </h1>
+
+
+        <p>
+            Complete loan prediction information
+        </p>
+
+    </div>
+
+
+    <!-- Details Card -->
+
+    <div class="details-card">
+
+
+        <!-- ============================= -->
+        <!-- Personal Information -->
+        <!-- ============================= -->
+
+        <div class="details-section">
+
+            <h2>
+                👤 Personal Information
+            </h2>
+
+
+            <div class="details-grid">
+
+
+                <div>
+
+                    <span>
+                        Gender
+                    </span>
+
+                    <strong>
+                        {{ application.Gender }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Married
+                    </span>
+
+                    <strong>
+                        {{ application.Married }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Dependents
+                    </span>
+
+                    <strong>
+                        {{ application.Dependents }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Education
+                    </span>
+
+                    <strong>
+                        {{ application.Education }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Self Employed
+                    </span>
+
+                    <strong>
+                        {{ application.Self_Employed }}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- Financial Information -->
+        <!-- ============================= -->
+
+        <div class="details-section">
+
+            <h2>
+                💰 Financial Information
+            </h2>
+
+
+            <div class="details-grid">
+
+
+                <div>
+
+                    <span>
+                        Applicant Income
+                    </span>
+
+                    <strong>
+                        ₹{{ application.ApplicantIncome }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Coapplicant Income
+                    </span>
+
+                    <strong>
+                        ₹{{ application.CoapplicantIncome }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Loan Amount
+                    </span>
+
+                    <strong>
+                        ₹{{ application.LoanAmount }}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- Loan Information -->
+        <!-- ============================= -->
+
+        <div class="details-section">
+
+            <h2>
+                🏦 Loan Information
+            </h2>
+
+
+            <div class="details-grid">
+
+
+                <div>
+
+                    <span>
+                        Loan Amount Term
+                    </span>
+
+                    <strong>
+                        {{ application.Loan_Amount_Term }}
+                        Months
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Credit History
+                    </span>
+
+                    <strong>
+
+                        {% if application.Credit_History == 1 %}
+
+                            Good
+
+                        {% else %}
+
+                            Poor
+
+                        {% endif %}
+
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Property Area
+                    </span>
+
+                    <strong>
+                        {{ application.Property_Area }}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- Prediction Result -->
+        <!-- ============================= -->
+
+        <div class="details-section prediction-section">
+
+            <h2>
+                📊 Prediction Result
+            </h2>
+
+
+            <div class="prediction-result">
+
+
+                {% if application.Loan_Status_Prediction == "Y" %}
+
+                    <div class="detail-approved">
+
+                        ✓ Loan Approved
+
+                    </div>
+
+                {% else %}
+
+                    <div class="detail-rejected">
+
+                        ✕ Loan Rejected
+
+                    </div>
+
+                {% endif %}
+
+
+            </div>
+
+
+            <div class="confidence-detail">
+
+                <span>
+                    Prediction Confidence
+                </span>
+
+
+                <strong>
+                    {{ application.Prediction_Confidence }}%
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- Application Date -->
+        <!-- ============================= -->
+
+        {% if application.Application_Date %}
+
+            <div class="application-date">
+
+                📅 Application Date:
+
+                <strong>
+                    {{ application.Application_Date }}
+                </strong>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- ============================= -->
+        <!-- Back Button -->
+        <!-- ============================= -->
+
+        <a
+            href="/history?status=all"
+            class="back-button"
+        >
+            ← Back to History
+        </a>
+
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>
